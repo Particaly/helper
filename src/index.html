@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+	function insertSpanToString(word,highlightOptions) {
+		let res = '';
+		let pointerIndex = 0;
+		let tempStr = word;
+		if(Array.isArray(highlightOptions)){
+			highlightOptions.forEach((highlightrule) => {
+				let highlightruleArray = highlightrule.split('*');
+				let startIndex = undefined,endIndex = 0;
+				let returnFlag = false;
+				highlightruleArray.forEach((rule) => {
+					let indexArray = findAllIndex(tempStr, rule);
+					if(indexArray.length === 0||returnFlag){
+						returnFlag = true;
+						return false;
+					}
+					let index;
+					if(indexArray.length === 1){
+						index = indexArray[0];
+						if(startIndex === undefined){
+							startIndex = index;
+						}
+					}else{
+						indexArray.some(item=>{
+							index = item;
+							if(startIndex === undefined){
+								startIndex = item;
+                            }
+							return item >= startIndex;
+						})
+					}
+					endIndex = index + rule.length;
+					pointerIndex = endIndex;
+				});
+				if(returnFlag){return false}
+				let subs = tempStr.slice(startIndex,endIndex);
+				tempStr = tempStr.split(subs);
+				res += tempStr.shift() + '<span>' + subs + '</span>';
+				tempStr = tempStr.join(subs);
+			})
+			res += tempStr;
+			return res;
+		}
+	}
+
+	function findAllIndex(string, item, arr = [], long = 0) {
+		let index = string.indexOf(item);
+		if(index !== -1){
+			let str = string.slice(index+item.length, string.length);
+			index += long;
+			arr.push(index);
+			long = index + item.length;
+			return findAllIndex(str, item, arr, long)
+		}else{
+			return arr;
+		}
+	}
+
+	let str = '本月企业信用异常预警共28项，占比为28%；上月共18项，比上月增多2%，异常多发生在泰兴岭南社区，加强对该社区的监管';
+	str = '本月综合异常评价指数为9.7，A级，整体呈现良好态势。总预警项20条比上月增加12%，总处办项18条比上月增加5%'
+	insertSpanToString(str,[
+		'指数为*级','总预警项*条','增加*%','减少*%','总处办*条','增加*%','减少*%'
+    ])
+</script>
+</body>
+</html>

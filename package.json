@@ -1,0 +1,37 @@
+{
+  "name": "@jspatrick/helper",
+  "version": "0.1.16",
+  "description": "A plug-in that for convenient",
+  "main": "dist/index.js",
+  "scripts": {
+    "watch": "rollup --config build/rollup.config.js -w",
+    "build": "rollup --config build/rollup.config.js",
+    "pub": "npm version patch&&npm publish"
+  },
+  "homepage": "暂时么得主页",
+  "keywords": [
+    "jspatrick",
+    "helper"
+  ],
+  "files": [
+    "dist",
+    "src"
+  ],
+  "author": "J.S.Patrick",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "@babel/plugin-proposal-optional-chaining": "^7.6.0",
+    "babel-plugin-module-resolver": "^3.2.0",
+    "rollup": "^1.16.7",
+    "rollup-plugin-babel": "^4.3.3",
+    "rollup-plugin-commonjs": "^10.0.2",
+    "rollup-plugin-json": "^4.0.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-uglify-es": "0.0.1"
+  },
+  "dependencies": {
+    "animejs": "^3.2.0"
+  }
+}
